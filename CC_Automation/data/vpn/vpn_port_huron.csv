@@ -1,0 +1,2 @@
+﻿s2s_policy_name,ike_version,ike_policy,preshared_key,device_name,device_interface_name,protected_network_name,remote_device_name,remote_device_ip,is_dynamic_ip,remote_protected_network_name
+PORT-HURON-MI,2,IKEv2_Policy_86400_GCM,vpn123,CR-DC-02-FTD3130-VPN-FW1,vpn_outside,host.placeholder-169.254.255.250,PORT-HURON-MI_PEER,50.218.171.126,FALSE,host.placeholder-169.254.255.254

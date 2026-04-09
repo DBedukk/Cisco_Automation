@@ -1,0 +1,2 @@
+s2s_policy_name,ike_version,ike_policy,preshared_key,device_name,device_interface_name,protected_network_name,remote_device_name,remote_device_ip,is_dynamic_ip,remote_protected_network_name
+LAB-TEST-TUNNEL,2,AES-GCM-NULL-SHA,vpn123,PJM_FTD,vpn_outside,IPv4-Private-192.168.0.0-16,LAB-TEST-PEER,192.168.10.242,FALSE,IPv4-Private-172.16.0.0-12
