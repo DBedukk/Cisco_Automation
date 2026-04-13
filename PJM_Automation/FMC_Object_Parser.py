@@ -404,7 +404,7 @@ def _row_for_item(item: dict, obj_type_label: str, domain_name: str) -> dict:
         "Port":         str(item.get("port", "") or ""),
         "InterfaceMode": item.get("interfaceMode", "") or "",
         "LastUser":     last_user,
-        "LastModified": str(meta.get("timestamp", "") or ""),
+        "LastModified": _parse_timestamp(meta.get("timestamp", "")),
     }
 
 
