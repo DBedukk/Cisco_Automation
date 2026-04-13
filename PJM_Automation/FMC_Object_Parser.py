@@ -273,7 +273,13 @@ def fetch_unused_objects(server: str, token: str, domain_uuid: str, obj_type: st
 
         data = resp.json()
         batch = data.get("items", [])
-        items.extend(batch)
+        # Exclude system-provided/read-only objects — matches FMC GUI "Show Unused Objects"
+        # behaviour which only surfaces user-created objects, not FMC defaults.
+        user_objects = [
+            item for item in batch
+            if not (item.get("metadata", {}) or {}).get("readOnly", False)
+        ]
+        items.extend(user_objects)
 
         if len(batch) < limit:
             break
