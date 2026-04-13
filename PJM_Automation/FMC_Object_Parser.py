@@ -1,3 +1,4 @@
+
 """
 Copyright (c) 2023 Cisco and/or its affiliates.
 
@@ -17,7 +18,7 @@ or implied.
 """
 
 __author__ = "Doruk Beduk"
-__copyright__ = "Copyright (c) 2023 Cisco and/or its affiliates."
+__copyright__ = "Copyright (c) 2026 Cisco and/or its affiliates."
 __license__ = "Cisco Sample Code License, Version 1.1"
 
 import json
@@ -174,6 +175,23 @@ def get_all_domains(server: str, token: str, cert_path=None) -> list[dict]:
 
 
 
+# Object types that support filter=unusedOnly:true per the FMC REST API docs.
+# Uses the combined endpoints where documented (networkaddresses covers hosts+networks,
+# ports covers all protocol/port objects).
+UNUSED_OBJECT_TYPES = [
+    ("networkaddresses",    "Network & Host Objects"),   # hosts + networks combined
+    ("ports",               "Port Objects"),              # all port-type objects combined
+    ("portobjectgroups",    "Port Object Groups"),
+    ("networkgroups",       "Network Groups"),
+    ("ranges",              "Range Objects"),
+    ("fqdns",               "FQDN Objects"),
+    ("urls",                "URL Objects"),
+    ("urlgroups",           "URL Groups"),
+    ("icmpv4objects",       "ICMPv4 Objects"),
+    ("icmpv6objects",       "ICMPv6 Objects"),
+]
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 #  Object fetching
 # ──────────────────────────────────────────────────────────────────────────────
@@ -223,6 +241,48 @@ def fetch_objects(server: str, token: str, domain_uuid: str, obj_type: str,
     return items
 
 
+def fetch_unused_objects(server: str, token: str, domain_uuid: str, obj_type: str,
+                         cert_path=None) -> list[dict]:
+    """
+    Fetch objects not referenced by any policy in the queried domain.
+    Uses filter=unusedOnly:true per the FMC REST API v7.0 docs.
+    """
+    url = f"https://{server}/api/fmc_config/v1/domain/{domain_uuid}/object/{obj_type}"
+    headers = {
+        "Content-Type": "application/json",
+        "X-auth-access-token": token,
+    }
+    verify = cert_path if cert_path else False
+    items = []
+    offset, limit = 0, 1000
+
+    while True:
+        try:
+            resp = requests.get(
+                url, headers=headers,
+                params={"limit": limit, "offset": offset, "expanded": True, "filter": "unusedOnly:true"},
+                verify=verify, timeout=30
+            )
+        except requests.exceptions.Timeout:
+            break
+
+        if resp.status_code in (401, 404, 405):
+            break
+        if resp.status_code != 200:
+            break
+
+        data = resp.json()
+        batch = data.get("items", [])
+        items.extend(batch)
+
+        if len(batch) < limit:
+            break
+        offset += limit
+        time.sleep(0.15)
+
+    return items
+
+
 # ──────────────────────────────────────────────────────────────────────────────
 #  Data model
 # ──────────────────────────────────────────────────────────────────────────────
@@ -254,11 +314,16 @@ SHEET_DEFINITIONS = [
         None,   # catches everything not in the sheets above
         ["Domain", "Object Type", "Name", "Value", "Members", "Description", "Overridable", "Last Modified By", "Last Modified"],
     ),
+    (
+        "Unused Objects",
+        None,   # populated separately via unusedonly=true API calls
+        ["Domain", "Object Type", "Name", "Value / Members", "Description", "Overridable", "Last Modified By", "Last Modified"],
+    ),
 ]
 
 # All label sets that have dedicated sheets (used to route "Other Objects")
 _DEDICATED_LABELS: set[str] = set()
-for _, labels, _ in SHEET_DEFINITIONS[:-1]:
+for _, labels, _ in SHEET_DEFINITIONS[:-2]:   # exclude Other + Unused (both None)
     if labels:
         _DEDICATED_LABELS.update(labels)
 
@@ -279,6 +344,16 @@ def _border(style="thin") -> Border:
 
 def _header_fill(hex_colour: str) -> PatternFill:
     return PatternFill("solid", fgColor=hex_colour)
+
+
+def _parse_timestamp(ts) -> str:
+    """Convert FMC millisecond epoch timestamp to YYYY-MM-DD HH:MM:SS."""
+    if not ts:
+        return ""
+    try:
+        return datetime.fromtimestamp(int(ts) / 1000).strftime("%Y-%m-%d %H:%M:%S")
+    except (ValueError, OSError, OverflowError):
+        return str(ts)
 
 
 def _flatten_value(val) -> str:
@@ -450,8 +525,8 @@ def _write_summary_sheet(ws, summary: dict, generated_at: str, domains_queried: 
 
 # ── Main export entry point ───────────────────────────────────────────────────
 
-def write_excel(all_rows: list[dict], summary: dict, filepath: str,
-                domains_queried: list[str], generated_at: str):
+def write_excel(all_rows: list[dict], unused_rows: list[dict], summary: dict,
+                filepath: str, domains_queried: list[str], generated_at: str):
     """Write a professional multi-sheet Excel workbook."""
     os.makedirs(os.path.dirname(filepath), exist_ok=True)
 
@@ -469,7 +544,7 @@ def write_excel(all_rows: list[dict], summary: dict, filepath: str,
         label = row["ObjectType"]
         placed = False
         for sheet_title, label_set, _ in SHEET_DEFINITIONS[:-1]:
-            if label in label_set:
+            if label_set and label in label_set:
                 sheet_rows[sheet_title].append(row)
                 placed = True
                 break
@@ -483,6 +558,7 @@ def write_excel(all_rows: list[dict], summary: dict, filepath: str,
         "Services":        "8B3A00",   # dark orange-brown
         "URL Objects":     "6B008B",   # purple
         "Other Objects":   "3D3D3D",   # dark grey
+        "Unused Objects":  "8B0000",   # dark red — unused = potential cleanup
     }
 
     # ── Column value extractors per sheet ─────────────────────────────────────
@@ -514,10 +590,20 @@ def write_excel(all_rows: list[dict], summary: dict, filepath: str,
         "Services":        service_cols,
         "URL Objects":     url_cols,
         "Other Objects":   other_cols,
+        "Unused Objects":  lambda r: [
+            r["Domain"],
+            r["ObjectType"],
+            r["Name"],
+            r["Value"] if r["Value"] else r["Members"],
+            r["Description"],
+            r["Overridable"],
+            r["LastUser"],
+            r["LastModified"],
+        ],
     }
 
-    # ── Write each sheet ──────────────────────────────────────────────────────
-    for sheet_title, _, headers in SHEET_DEFINITIONS:
+    # ── Write each sheet (skip Unused Objects — handled separately below) ─────
+    for sheet_title, _, headers in SHEET_DEFINITIONS[:-1]:
         rows_for_sheet = sheet_rows[sheet_title]
         if not rows_for_sheet:
             continue   # skip empty sheets
@@ -527,6 +613,24 @@ def write_excel(all_rows: list[dict], summary: dict, filepath: str,
         extractor = extractors[sheet_title]
         data = [extractor(r) for r in rows_for_sheet]
         _write_data_sheet(ws, headers, data, colour)
+
+    # ── Unused Objects sheet (always created) ────────────────────────────────
+    _, _, unused_headers = SHEET_DEFINITIONS[-1]
+    ws_unused = wb.create_sheet(title="Unused Objects")
+    unused_extractor = extractors["Unused Objects"]
+
+    if unused_rows:
+        unused_data = [unused_extractor(r) for r in unused_rows]
+        _write_data_sheet(ws_unused, unused_headers, unused_data, sheet_colours["Unused Objects"])
+    else:
+        # Write the header row then a single informational row
+        _write_data_sheet(ws_unused, unused_headers, [], sheet_colours["Unused Objects"])
+        no_data_cell = ws_unused.cell(row=2, column=1,
+                                      value="No unused objects found in the queried domain(s).")
+        no_data_cell.font      = Font(italic=True, color="666666", name="Calibri", size=10)
+        no_data_cell.alignment = Alignment(horizontal="left", vertical="center")
+        ws_unused.merge_cells(start_row=2, start_column=1,
+                              end_row=2, end_column=len(unused_headers))
 
     wb.save(filepath)
 
@@ -670,13 +774,14 @@ def display_summary_table(results: dict):
 # ──────────────────────────────────────────────────────────────────────────────
 
 def parse_domains(server: str, token: str, chosen_domains: list[dict],
-                  cert_path=None) -> tuple[list[dict], dict]:
+                  cert_path=None) -> tuple[list[dict], list[dict], dict]:
     """
-    Fetch all objects across chosen_domains.
-    Returns (all_rows, summary_dict).
+    Fetch all objects and unused objects across chosen_domains.
+    Returns (all_rows, unused_rows, summary_dict).
     """
-    all_rows = []
-    summary  = {}  # {domain_name: {obj_type_label: count}}
+    all_rows    = []
+    unused_rows = []
+    summary     = {}  # {domain_name: {obj_type_label: count}}
 
     with Progress(
         SpinnerColumn(),
@@ -688,9 +793,7 @@ def parse_domains(server: str, token: str, chosen_domains: list[dict],
         transient=False,
     ) as progress:
 
-        domain_task = progress.add_task(
-            f"[cyan]Domains[/cyan]", total=len(chosen_domains)
-        )
+        domain_task = progress.add_task("[cyan]Domains[/cyan]", total=len(chosen_domains))
 
         for domain in chosen_domains:
             domain_name = domain.get("name", "Unknown")
@@ -698,26 +801,33 @@ def parse_domains(server: str, token: str, chosen_domains: list[dict],
             summary[domain_name] = {}
 
             obj_task = progress.add_task(
-                f"  [white]{domain_name}[/white]", total=len(OBJECT_TYPES)
+                f"  [white]{domain_name}[/white]",
+                total=len(OBJECT_TYPES) + len(UNUSED_OBJECT_TYPES)
             )
 
+            # ── All objects ───────────────────────────────────────────────────
             for obj_type, label in OBJECT_TYPES:
                 progress.update(obj_task, description=f"  [white]{domain_name}[/white] → [cyan]{label}[/cyan]")
                 items = fetch_objects(server, token, domain_uuid, obj_type, cert_path)
 
-                rows_for_type = []
-                for item in items:
-                    row = _row_for_item(item, label, domain_name)
-                    rows_for_type.append(row)
-
+                rows_for_type = [_row_for_item(item, label, domain_name) for item in items]
                 all_rows.extend(rows_for_type)
                 summary[domain_name][label] = len(rows_for_type)
+                progress.advance(obj_task)
+
+            # ── Unused objects ────────────────────────────────────────────────
+            for obj_type, label in UNUSED_OBJECT_TYPES:
+                progress.update(obj_task, description=f"  [white]{domain_name}[/white] → [red]Unused {label}[/red]")
+                items = fetch_unused_objects(server, token, domain_uuid, obj_type, cert_path)
+
+                rows_for_type = [_row_for_item(item, label, domain_name) for item in items]
+                unused_rows.extend(rows_for_type)
                 progress.advance(obj_task)
 
             progress.update(obj_task, description=f"  [green]✓ {domain_name}[/green]")
             progress.advance(domain_task)
 
-    return all_rows, summary
+    return all_rows, unused_rows, summary
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -787,7 +897,7 @@ def main():
     console.print()
 
     # ── Fetch objects ─────────────────────────────────────────────────────────
-    all_rows, summary = parse_domains(args.server, token, chosen_domains, cert)
+    all_rows, unused_rows, summary = parse_domains(args.server, token, chosen_domains, cert)
 
     # ── Write CSV ─────────────────────────────────────────────────────────────
     console.print()
@@ -807,7 +917,7 @@ def main():
         out_path = os.path.join(OUTPUT_DIR, f"FMC_Objects_{safe_name}_{ts}.xlsx")
 
     with console.status("[bold cyan]Writing Excel workbook…[/bold cyan]", spinner="dots"):
-        write_excel(all_rows, summary, out_path, domains_queried, generated_at)
+        write_excel(all_rows, unused_rows, summary, out_path, domains_queried, generated_at)
 
     console.print(f"[green]✓ Excel workbook written:[/green] [bold white]{out_path}[/bold white]")
     console.print(f"[green]✓ Total rows: [bold yellow]{len(all_rows)}[/bold yellow][/green]")

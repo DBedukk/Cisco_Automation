@@ -14,6 +14,9 @@ env/
 # Output files (generated at runtime)
 output/
 
+# Offline package bundles (for air-gapped installs)
+offline_packages/
+
 # IDE / OS
 .vscode/
 .idea/
