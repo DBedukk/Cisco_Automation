@@ -1,7 +1,7 @@
 @echo off
 echo ============================================================
 echo  FMC Object Parser - Setup and Run
-echo  Requires Python 3.10 or higher
+echo  Requires Python 3.8 or higher
 echo ============================================================
 echo.
 
@@ -9,8 +9,8 @@ echo.
 python --version >nul 2>&1
 if errorlevel 1 (
     echo ERROR: Python not found.
-    echo Please install Python 3.13 from the included installer
-    echo Make sure to check "Add Python to PATH" during install.
+    echo Please install Python 3.8 or higher and make sure to
+    echo check "Add Python to PATH" during install.
     pause
     exit /b 1
 )
