@@ -25,3 +25,7 @@ Thumbs.db
 
 # Claude Code internal
 .claude/
+
+# Zip archives
+*.zip
+
