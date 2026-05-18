@@ -1,0 +1,552 @@
+======================================================================
+       PALO ALTO INTERFACE INVENTORY SUMMARY
+======================================================================
+  Generated On                : 2026-05-18 09:16:19
+  Total Physical Interfaces   : 10
+  Total Sub-Interfaces        : 46
+  Total Port-Channels (AE)    : 3
+  TOTAL INTERFACES            : 59
+======================================================================
+
+--- PHYSICAL INTERFACES (10) ---
+
+  [ethernet1/1]
+    Type          : Physical
+    Mode          : Layer3
+    IP Address    : 10.73.11.242/29, 10.73.11.242/29
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : brwan1-25-254-73_brwan2-25-253-73
+
+  [ethernet1/2]
+    Type          : Physical
+    Mode          : Layer3
+    IP Address    : 10.73.11.234/29, 10.73.11.234/29
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : brwan1-25-254-73_brwan2-25-253-73
+
+  [ethernet1/17]
+    Type          : Physical
+    Mode          : Layer3
+    IP Address    : 10.73.11.213/30, 10.73.11.213/30
+    MTU           : 9000
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : br-corp-73-0-251_pri_br-corp-73-0-250_sec
+
+  [ethernet1/18]
+    Type          : Physical
+    Mode          : Layer3
+    IP Address    : 10.73.11.217/30, 10.73.11.217/30
+    MTU           : 9000
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : br-corp-73-0-251_pri_br-corp-73-0-250_sec
+
+  [ethernet1/3]
+    Type          : Physical
+    Mode          : Aggregate Member (ae5)
+    IP Address    : N/A
+    MTU           : 1500
+    Zone          : Unassigned
+    Virtual Router: N/A
+    Description   : br-corp-73-0-251_pri_br-corp-73-0-250_sec - Firenet
+
+  [ethernet1/4]
+    Type          : Physical
+    Mode          : Aggregate Member (ae5)
+    IP Address    : N/A
+    MTU           : 1500
+    Zone          : Unassigned
+    Virtual Router: N/A
+    Description   : br-corp-73-0-251_pri_br-corp-73-0-250_sec - Firenet
+
+  [ethernet1/10]
+    Type          : Physical
+    Mode          : HA
+    IP Address    : N/A
+    MTU           : 1500
+    Zone          : Unassigned
+    Virtual Router: N/A
+    Description   : N/A
+
+  [ethernet1/15]
+    Type          : Physical
+    Mode          : Aggregate Member (ae4)
+    IP Address    : N/A
+    MTU           : 1500
+    Zone          : Unassigned
+    Virtual Router: N/A
+    Description   : Out Of Band Switch
+
+  [ethernet1/19]
+    Type          : Physical
+    Mode          : Aggregate Member (ae3)
+    IP Address    : N/A
+    MTU           : 1500
+    Zone          : Unassigned
+    Virtual Router: N/A
+    Description   : br-dc-73-0-247 & br-dc-73-0-246
+
+  [ethernet1/20]
+    Type          : Physical
+    Mode          : Aggregate Member (ae3)
+    IP Address    : N/A
+    MTU           : 1500
+    Zone          : Unassigned
+    Virtual Router: N/A
+    Description   : br-dc-73-0-247 & br-dc-73-0-246
+
+--- SUB-INTERFACES (46) ---
+
+  [ae3.101]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 101)
+    IP Address    : 10.99.173.1/26
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : ESXi Management
+
+  [ae3.102]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 102)
+    IP Address    : 10.99.73.65/28
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : DDI - Infoblox
+
+  [ae3.916]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 916)
+    IP Address    : 10.73.16.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : Compute
+
+  [ae3.917]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 917)
+    IP Address    : 10.73.17.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : Compute
+
+  [ae3.918]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 918)
+    IP Address    : 10.73.18.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : Compute
+
+  [ae3.919]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 919)
+    IP Address    : 10.73.19.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : Compute
+
+  [ae3.920]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 920)
+    IP Address    : 10.73.20.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : Compute
+
+  [ae3.921]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 921)
+    IP Address    : 10.73.21.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : L2
+
+  [ae3.922]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 922)
+    IP Address    : 10.73.22.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : L2
+
+  [ae3.924]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 924)
+    IP Address    : 10.73.24.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : PCI
+
+  [ae3.925]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 925)
+    IP Address    : 10.73.25.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : PCI
+
+  [ae3.926]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 926)
+    IP Address    : 10.73.26.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : PII
+
+  [ae3.927]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 927)
+    IP Address    : 10.73.27.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : PII
+
+  [ae3.928]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 928)
+    IP Address    : 10.73.28.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : PBX
+
+  [ae3.181]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 181)
+    IP Address    : 172.24.73.1/29
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : pbx-dmx
+
+  [ae3.940]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 940)
+    IP Address    : 10.73.40.1/27
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MD-Mgmt
+
+  [ae3.941]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 941)
+    IP Address    : 10.73.40.33/27
+    MTU           : 9000
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MD-VMotion
+
+  [ae3.942]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 942)
+    IP Address    : 10.73.40.65/27
+    MTU           : 9000
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MD-VSAN
+
+  [ae3.943]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 943)
+    IP Address    : 10.73.40.97/27
+    MTU           : 9000
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MD-HTEP
+
+  [ae3.944]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 944)
+    IP Address    : 10.73.40.129/27
+    MTU           : 9000
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MD-ETEP
+
+  [ae3.945]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 945)
+    IP Address    : 10.73.40.161/27
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : WD-Mgmt
+
+  [ae3.946]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 946)
+    IP Address    : 10.73.40.193/27
+    MTU           : 9000
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : WD-VMotion
+
+  [ae3.947]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 947)
+    IP Address    : 10.73.40.225/27
+    MTU           : 9000
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : WD-VSAN
+
+  [ae3.948]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 948)
+    IP Address    : 10.73.41.1/27
+    MTU           : 9000
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : WD-HTEP
+
+  [ae5.210]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 210)
+    IP Address    : 10.99.73.89/29
+    MTU           : 9000
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MoneyCounters
+
+  [ae5.620]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 620)
+    IP Address    : 10.99.173.65/27
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : N/A
+
+  [ae5.61]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 61)
+    IP Address    : 172.16.61.199/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : N/A
+
+  [ae5.62]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 62)
+    IP Address    : 172.16.62.199/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : N/A
+
+  [ae5.63]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 63)
+    IP Address    : 172.16.63.199/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : N/A
+
+  [ae5.100]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 100)
+    IP Address    : 10.99.70.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : N/A
+
+  [ae5.101]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 101)
+    IP Address    : 10.99.73.129/26
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : N/A
+
+  [ae5.102]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 102)
+    IP Address    : 10.99.73.97/27
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : N/A
+
+  [ae5.172]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 172)
+    IP Address    : 10.99.72.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : N/A
+
+  [ae5.310]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 310)
+    IP Address    : 10.100.10.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MoneyCounters
+
+  [ae5.314]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 314)
+    IP Address    : 172.20.48.254/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MoneyCounters
+
+  [ae5.320]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 320)
+    IP Address    : 10.150.10.254/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MoneyCounters
+
+  [ae5.610]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 610)
+    IP Address    : 192.168.222.129/26
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MoneyCounters
+
+  [ae5.613]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 613)
+    IP Address    : 10.99.73.193/26
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MoneyCounters
+
+  [ae5.870]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 870)
+    IP Address    : 10.157.70.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MoneyCounters
+
+  [ae5.3070]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 3070)
+    IP Address    : 10.99.73.1/26
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : MoneyCounters
+
+  [ae5.105]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 105)
+    IP Address    : 10.99.71.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : N/A
+
+  [ae5.3967]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 3967)
+    IP Address    : 10.99.173.153/29
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : N/A
+
+  [ae5.137]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 137)
+    IP Address    : 10.73.37.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : N/A
+
+  [ae5.970]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 970)
+    IP Address    : 10.99.102.1/24
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : Quarantine
+
+  [ae5.1803]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 1803)
+    IP Address    : 10.180.130.1/29
+    MTU           : 9000
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : N/A
+
+  [ae5.670]
+    Type          : Sub-Interface (AE)
+    Mode          : Layer3 (VLAN Tag: 670)
+    IP Address    : 10.99.173.145/29
+    MTU           : 1500
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : 670 Cash Recycler
+
+--- PORT-CHANNELS (Aggregate Ethernet) (3) ---
+
+  [ae3]
+    Type          : Port-Channel (AggregateEthernet)
+    Mode          : Layer3
+    Bonded Members: ethernet1/19, ethernet1/20
+    IP Address    : 10.99.173.1/26, 10.99.73.65/28, 10.73.16.1/24, 10.73.17.1/24, 10.73.18.1/24, 10.73.19.1/24, 10.73.20.1/24, 10.73.21.1/24, 10.73.22.1/24, 10.73.24.1/24, 10.73.25.1/24, 10.73.26.1/24, 10.73.27.1/24, 10.73.28.1/24, 172.24.73.1/29, 10.73.40.1/27, 10.73.40.33/27, 10.73.40.65/27, 10.73.40.97/27, 10.73.40.129/27, 10.73.40.161/27, 10.73.40.193/27, 10.73.40.225/27, 10.73.41.1/27
+    MTU           : 9000
+    Link Speed    : LACP Mode: passive
+    Zone          : Unassigned
+    Virtual Router: Unknown
+    Description   : br-dc-73-0-247 & br-dc-73-0-246
+
+  [ae4]
+    Type          : Port-Channel (AggregateEthernet)
+    Mode          : Layer3
+    Bonded Members: ethernet1/15
+    IP Address    : 10.73.11.181/30, 10.73.11.181/30
+    MTU           : 9000
+    Link Speed    : LACP Mode: active
+    Zone          : Unknown
+    Virtual Router: Unknown
+    Description   : Out Of Band Switch
+
+  [ae5]
+    Type          : Port-Channel (AggregateEthernet)
+    Mode          : Layer3
+    Bonded Members: ethernet1/3, ethernet1/4
+    IP Address    : 10.99.73.89/29, 10.99.173.65/27, 172.16.61.199/24, 172.16.62.199/24, 172.16.63.199/24, 10.99.70.1/24, 10.99.73.129/26, 10.99.73.97/27, 10.99.72.1/24, 10.100.10.1/24, 172.20.48.254/24, 10.150.10.254/24, 192.168.222.129/26, 10.99.73.193/26, 10.157.70.1/24, 10.99.73.1/26, 10.99.71.1/24, 10.99.173.153/29, 10.73.37.1/24, 10.99.102.1/24, 10.180.130.1/29, 10.99.173.145/29
+    MTU           : 9000
+    Link Speed    : LACP Mode: N/A
+    Zone          : Unassigned
+    Virtual Router: N/A
+    Description   : br-corp-73-0-251_pri_br-corp-73-0-250_sec - Firenet
